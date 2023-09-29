@@ -35,34 +35,9 @@ public class EmployeeRestController {
         return theEmployees;
     }
     @GetMapping("/employees/{employeeId}")
-    public Employee getEmployee(@PathVariable int employeeId){
-        if(employeeId < 0 || employeeId>=theEmployees.size()) throw new EmployeeNotFoundException("Employee id is invalid..!");
+    public Employee getEmployee(@PathVariable int employeeId) {
+        if (employeeId < 0 || employeeId >= theEmployees.size())
+            throw new EmployeeNotFoundException("Employee id is invalid..!");
         return theEmployees.get(employeeId);
     }
-
-    // Exception Handler for Index out of bound for employee
-    /*
-    @ExceptionHandler
-    public ResponseEntity<EmployeeErrorResponse> handleException(EmployeeNotFoundException exception){
-        EmployeeErrorResponse error = new EmployeeErrorResponse();
-        error.setStatus(HttpStatus.NOT_FOUND.value());
-        error.setMessage(exception.getMessage());
-        error.setTimeStamp(System.currentTimeMillis());
-
-        return new ResponseEntity<>(error,HttpStatus.NOT_FOUND);
-    }
-
-    // another generic exception handler
-    @ExceptionHandler
-    public ResponseEntity<EmployeeErrorResponse> handleException(Exception exception){
-        EmployeeErrorResponse error = new EmployeeErrorResponse();
-        error.setStatus(HttpStatus.BAD_REQUEST.value());
-        error.setMessage(exception.getMessage());
-        error.setTimeStamp(System.currentTimeMillis());
-
-        return new ResponseEntity<>(error,HttpStatus.BAD_REQUEST);
-    }
-
-     */
-
 }
