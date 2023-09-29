@@ -1,68 +1,66 @@
 package com.sathish.restcrud.rest;
 
 import com.sathish.restcrud.entity.Employee;
-import jakarta.annotation.PostConstruct;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import com.sathish.restcrud.service.EmployeeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.rmi.StubNotFoundException;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api")
 public class EmployeeRestController {
 
-    private List<Employee> theEmployees;
-    @PostConstruct
-    private void loadData(){
-        theEmployees = new ArrayList<>();
-        theEmployees.add(new Employee(1,"sathish","routhu","sathishrouthu@gmail.com"));
-        theEmployees.add(new Employee(2,"siva","dev","sivadev@gmail.com"));
-        theEmployees.add(new Employee(3,"ravi","nam","ravi@gmail.com"));
-        theEmployees.add(new Employee(4,"ajay","khan","ajay@gmail.com"));
+    private EmployeeService employeeService;
+    @Autowired
+    public EmployeeRestController(EmployeeService theEmployeeService){
+        employeeService = theEmployeeService;
     }
-
     @GetMapping("/")
     public String home(){
         return "Home";
     }
-    // end point "/employees" => return a list of students
 
+    // end point "/employees" => return a list of students
     @GetMapping("/employees")
     public List<Employee> getEmployees(){
-        return theEmployees;
+        return employeeService.findAll();
     }
+
+    // endpoint "/employees/id" => return employee by given id
     @GetMapping("/employees/{employeeId}")
     public Employee getEmployee(@PathVariable int employeeId){
-        if(employeeId < 0 || employeeId>=theEmployees.size()) throw new EmployeeNotFoundException("Employee id is invalid..!");
-        return theEmployees.get(employeeId);
+        Employee theEmployee =  employeeService.findById(employeeId);
+        if(theEmployee==null) {
+            throw new EmployeeNotFoundException("Employee Id Not Found - "+employeeId);
+        }
+        return theEmployee;
     }
 
-    // Exception Handler for Index out of bound for employee
-    /*
-    @ExceptionHandler
-    public ResponseEntity<EmployeeErrorResponse> handleException(EmployeeNotFoundException exception){
-        EmployeeErrorResponse error = new EmployeeErrorResponse();
-        error.setStatus(HttpStatus.NOT_FOUND.value());
-        error.setMessage(exception.getMessage());
-        error.setTimeStamp(System.currentTimeMillis());
-
-        return new ResponseEntity<>(error,HttpStatus.NOT_FOUND);
+    // endpoint post "/employees" => add new employee to the db
+    @PostMapping("/employees")
+    public Employee addEmployee(@RequestBody Employee theEmployee){
+        // this end point is for only adding employee, they cannot update through this,
+        // if they pass an id through request then this will update instead of adding
+        // so to make sure that the update not happen set id to 0
+        theEmployee.setId(0);
+        Employee dbEmployee = employeeService.save(theEmployee);
+        return dbEmployee;
+    }
+    @PutMapping("/employees")
+    public Employee updateEmployee(@RequestBody Employee theEmployee){
+        Employee dbEmployee = employeeService.save(theEmployee);
+        return dbEmployee;
     }
 
-    // another generic exception handler
-    @ExceptionHandler
-    public ResponseEntity<EmployeeErrorResponse> handleException(Exception exception){
-        EmployeeErrorResponse error = new EmployeeErrorResponse();
-        error.setStatus(HttpStatus.BAD_REQUEST.value());
-        error.setMessage(exception.getMessage());
-        error.setTimeStamp(System.currentTimeMillis());
-
-        return new ResponseEntity<>(error,HttpStatus.BAD_REQUEST);
+    // end point to delete "/employees
+    @DeleteMapping("/employees/{employeeId}")
+    public String deleteByiD(@PathVariable int employeeId){
+        Employee deleteEmployee = employeeService.findById(employeeId);
+        if(deleteEmployee==null){
+            throw new EmployeeNotFoundException("Employee Id Not Found - "+employeeId);
+        }
+        employeeService.deleteById(employeeId);
+        return "Employee with id : "+employeeId+" has been Deleted";
     }
-
-     */
 
 }

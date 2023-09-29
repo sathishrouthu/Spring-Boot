@@ -1,11 +1,18 @@
 package com.sathish.restcrud.entity;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name="employees")
 public class Employee {
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
+    @Column(name="first_name")
     private String firstName;
-
+    @Column(name="last_name")
     private String lastName;
-
+    @Column(name="email")
     private String email;
 
     public Employee(){
@@ -49,5 +56,15 @@ public class Employee {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }
