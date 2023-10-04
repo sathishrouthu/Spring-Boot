@@ -1,0 +1,9 @@
+
+p{
+font-style:italic;
+color:red;
+}
+input,button,select{
+margin:20px;
+padding:10px;
+}

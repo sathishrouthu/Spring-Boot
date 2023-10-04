@@ -1,0 +1,14 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org" >
+<head>
+    <title> Thymeleaf Sample</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <!--  Adding Bootstrap CDN -->
+    <link rel="stylesheet" href = "https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" />
+</head>
+<body>
+    <h1> Hello There..!</h1>
+    <p th:text="'Time on the Server : '+${theDate}"/>
+</body>
+
+</html>

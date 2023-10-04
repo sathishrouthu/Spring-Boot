@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Confirmed</title>
+</head>
+<body>
+<h1 th:text = "${student.firstName.toUpperCase()} + '  ' + ${student.lastName}" ></h1>
+<br>
+Country :
+<span th:text="${student.country}" />
+<br>
+Favourite Language :
+<span th:text="${student.favouriteLanguage}"  />
+<br>
+Systems Known :
+<br>
+<ul>
+    <li th:each="tempSystem : ${student.favouriteSystems}" th:text="${tempSystem}" />
+</ul>
+<br>
+
+</body>
+</html>
