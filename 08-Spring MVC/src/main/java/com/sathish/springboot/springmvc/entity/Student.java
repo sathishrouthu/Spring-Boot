@@ -10,7 +10,6 @@ public class Student {
     private List<String> favouriteSystems;
 
     public Student(){
-
     }
 
     public String getFirstName() {
