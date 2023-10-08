@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #3498db; /* Background color */
+            font-family: 'Arial', sans-serif;
+        }
+
+        .login-container {
+            margin-top: 150px;
+        }
+
+        .login-form {
+            background-color: #ffffff; /* Form background color */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-btn {
+            background-color: #2ecc71; /* Button color */
+            color: #ffffff;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <div class="row justify-content-center login-container">
+        <div class="col-md-4 col-sm-6">
+            <div class="login-form">
+                <h2 class="text-center mb-4">Login</h2>
+                <div th:if="${param.error}">
+                    <div class="alert alert-danger" > Bad Credentials </div>
+<!--                    ${session['SPRING_SECURITY_LAST_EXCEPTION'].message}-->
+                </div>
+
+                <div th:if="${param.logout}">
+                    <div class="alert alert-info" > Logged Out Successfully</div>
+                    <!--                    ${session['SPRING_SECURITY_LAST_EXCEPTION'].message}-->
+                </div>
+
+                <form action="#" th:action="@{/authenticateTheUser}" method="POST">
+
+                    <!-- User name -->
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" class="form-control" name="username" id="username" placeholder="Enter username" />
+                    </div>
+                    <!-- Password -->
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" name="password" id="password" placeholder="Enter password" />
+                    </div>
+
+                    <!-- Submit -->
+                    <button type="submit" class="btn btn-block login-btn">Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

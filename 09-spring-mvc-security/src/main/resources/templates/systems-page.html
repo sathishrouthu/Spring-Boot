@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home Page</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+        body {
+            padding: 100px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #3498db; /* Text color */
+        }
+
+        .user-info {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        .roles-list {
+            list-style: none;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <h1>Welcome, <span sec:authentication="principal.username"></span>!</h1>
+      <p>This is Systems page..!</p>
+      <hr>
+      <form action="#" th:action="@{/logout}" method="post">
+        <button type="submit" class="btn btn-secondary">Logout</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS and dependencies (optional) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
